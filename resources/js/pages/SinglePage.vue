@@ -72,14 +72,8 @@
     </div>
 </template>
 <script>
-import PostComponent from '@/components/PostComponent.vue';
-import SidebarComponent from '@/components/SidebarComponent.vue';
 
 export default {
     name: 'SinglePage',
-    components: {
-        PostComponent,
-        SidebarComponent,
-    },
 };
 </script>
