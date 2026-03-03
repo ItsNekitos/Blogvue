@@ -4,10 +4,10 @@
         <nav class="main">
             <ul>
                 <li class="menu" v-if="isUser">
-                    <a class="fa-user" href="#menu">Menu</a>
+                    <a href="#menu"><img :src="PUBLIC + user.avatar" /></a>
                 </li>
                 <li class="menu" v-else>
-                    <a href="#menu"><img :src="PUBLIC + user.avatar" /></a>
+                    <a class="fa-user" href="#menu">Menu</a>
                 </li>
             </ul>
         </nav>
