@@ -23,5 +23,7 @@ export default {
         PostComponent,
         SidebarComponent,
     },
+    methods: {
+    },
 };
 </script>
