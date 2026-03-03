@@ -8,8 +8,8 @@
                 <RegisterComponent :server="server" :successUser="successUser" />
             </ul>
             <ul v-else>
-                <li><a href="">Создать пост</a></li>
-                <li><a href="">Выйти</a></li>
+                <li><a href="" @click.prevent="changePage('PostAdd')">Создать пост</a></li>
+                <li><a href="" @click.prevent="logout()">Выйти</a></li>
             </ul>
         </section>
     </section>
@@ -21,7 +21,7 @@ import RegisterComponent from './RegisterComponent.vue';
 
 export default {
     name: 'MenuComponent',
-    props: ['server', 'isUser', 'successUser'],
+    props: ['server', 'isUser', 'successUser', 'changePage', 'logout'],
     components: {
         RegisterComponent,
         LoginComponent,

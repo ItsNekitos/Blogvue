@@ -1,6 +1,6 @@
 <template>
     <header id="header">
-        <h1><a href="#">Blog</a></h1>
+        <h1><a href="#" @click.prevent="changePage('HomePage')">Blog</a></h1>
         <nav class="main">
             <ul>
                 <li class="menu" v-if="isUser">
@@ -17,6 +17,6 @@
 <script>
 export default {
     name: 'HeaderComponent',
-    props: ["isUser", "user", "PUBLIC"],
+    props: ["isUser", "user", 'changePage', "PUBLIC"],
 };
 </script>

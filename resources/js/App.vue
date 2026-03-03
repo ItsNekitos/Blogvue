@@ -2,10 +2,10 @@
     <!-- Wrapper -->
     <div id="wrapper">
         <!-- Header -->
-        <HeaderComponent :user="user" :isUser="isUser" :PUBLIC="PUBLIC" />
+        <HeaderComponent :user="user" :isUser="isUser" :changePage="changePage" :PUBLIC="PUBLIC" />
 
         <!-- Menu -->
-        <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" />
+        <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" :changePage="changePage" :logout="logout" />
 
         <HomePage v-if="page == 'HomePage'" />
         <SinglePage v-if="page == 'SinglePage'" />
@@ -26,7 +26,7 @@ export default {
     name: 'App',
     data() {
         return {
-            page: 'HomePage',
+            page: localStorage.getItem('page')?localStorage.getItem('page'):"HomePage",
             pageId: null,
             API: 'http://127.0.0.1:8000/api/',
             PUBLIC: 'http://127.0.0.1:8000/storage/app/public/',
@@ -50,6 +50,7 @@ export default {
     methods: {
         changePage(page) {
             this.page = page;
+            localStorage.setItem("page", this.page);
         },
         getUser() {
             this.server('user')
@@ -89,7 +90,7 @@ export default {
             return await fetch(this.API + route, requestOptions).then((response) => {
                 if (response.status == 401) {
                     localStorage.removeItem('token');
-                    this.changePage('AuthPage');
+                    this.changePage('HomePage');
                 }
                 return response.json();
             });
