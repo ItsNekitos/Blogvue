@@ -8,8 +8,8 @@
         <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" :changePage="changePage" :logout="logout" />
 
         <HomePage v-if="page == 'HomePage'" />
-        <SinglePage v-if="page == 'SinglePage'" />
-        <PostAdd v-if="page == 'PostAdd'" />
+        <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" />
+        <SinglePage v-if="page == 'SinglePage'" :server="server" />
     </div>
     <FooterComponent />
 </template>

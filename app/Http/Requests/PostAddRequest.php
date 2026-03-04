@@ -26,7 +26,7 @@ class PostAddRequest extends FormRequest
             "subtitle"=>"required",
             "anons"=>"required",
             "contentt"=>"required",
-            "file"=>"required|image",
+            "photo"=>"required|image",
         ];
     }
 }

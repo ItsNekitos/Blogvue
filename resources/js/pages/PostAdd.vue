@@ -20,17 +20,18 @@
             <p class="red" v-if="errors.contentt">
                 {{ errors.contentt.join('. ') }}
             </p>
-            <input v-model="photo" type="file" /><br /><br />
+            <input type="file" id="photo" /><br /><br />
             <p class="red" v-if="errors.photo">
                 {{ errors.photo.join('. ') }}
             </p>
-            <input type="submit" class="button big fit" value="Add Post" />
+            <button type="button" @click="postadd" class="button big fit">Добавить пост</button>
         </article>
     </div>
 </template>
 <script>
 export default {
     name: 'PostAdd',
+    props: ['server', 'changePage'],
     data() {
         return {
             name: null,
@@ -41,6 +42,29 @@ export default {
             errors: {},
         };
     },
-    methods: {},
+    methods: {
+        postadd() {
+            let formdata = new FormData();
+            if (this.name) formdata.append('name', this.name);
+            if (this.subtitle) formdata.append('subtitle', this.subtitle);
+            if (this.anons) formdata.append('anons', this.anons);
+            if (this.contentt) formdata.append('contentt', this.contentt);
+            let photo = document.querySelector("#photo");
+            if(photo.files[0]) {
+                formdata.append('photo', photo.files[0]);
+            }
+            this.server('postadd', 'POST', formdata)
+                .then((result) => {
+                    if (result.errors) {
+                        this.errors = result.errors;
+                    }
+                    console.log(result);
+                    if (result.id) {
+                        this.changePage("SinglePage");
+                    }
+                })
+                .catch((error) => console.log('error', error));
+        },
+    },
 };
 </script>
