@@ -11,6 +11,6 @@ Route::middleware(['auth:sanctum'])->group(function(){
     });
     Route::post("/postadd", [PostController::class, "postadd"]);
 });
-
+Route::get("/post/{post}", [PostController::class, "post"]);
 Route::post("/register", [UserController::class, "register"]);
 Route::post("/login", [UserController::class, "login"]);

@@ -3,7 +3,7 @@
         <h1><a href="#" @click.prevent="changePage('HomePage')">Blog</a></h1>
         <nav class="main">
             <ul>
-                <li class="menu" v-if="isUser">
+                <li class="menu user" v-if="isUser">
                     <a href="#menu"><img :src="PUBLIC + user.avatar" /></a>
                 </li>
                 <li class="menu" v-else>

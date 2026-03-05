@@ -60,7 +60,7 @@ export default {
                     }
                     console.log(result);
                     if (result.id) {
-                        this.changePage("SinglePage");
+                        this.changePage("SinglePage", result.id);
                     }
                 })
                 .catch((error) => console.log('error', error));

@@ -26,4 +26,8 @@ class PostController extends Controller
         $post->save();
         return response()->json(["id"=>$post->id]);
     }
+    public function post($post){
+        $post = Post::with('user', 'comment')->findOrFail($post);
+        return $post;
+    }
 }

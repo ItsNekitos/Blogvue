@@ -9,7 +9,7 @@
 
         <HomePage v-if="page == 'HomePage'" />
         <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" />
-        <SinglePage v-if="page == 'SinglePage'" :server="server" />
+        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :server="server" :PUBLIC="PUBLIC" />
     </div>
     <FooterComponent />
 </template>
@@ -29,7 +29,7 @@ export default {
             page: localStorage.getItem('page')?localStorage.getItem('page'):"HomePage",
             pageId: null,
             API: 'http://127.0.0.1:8000/api/',
-            PUBLIC: 'http://127.0.0.1:8000/storage/app/public/',
+            PUBLIC: 'http://127.0.0.1:8000/storage/',
             isUser: false,
             user: {},
         };
@@ -48,8 +48,9 @@ export default {
         }
     },
     methods: {
-        changePage(page) {
+        changePage(page, pageId = null) {
             this.page = page;
+            this.pageId = pageId;
             localStorage.setItem("page", this.page);
         },
         getUser() {
