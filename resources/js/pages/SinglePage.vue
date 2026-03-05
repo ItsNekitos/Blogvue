@@ -1,6 +1,6 @@
 <template>
     <!-- Main -->
-    <div id="main">
+    <div id="main" v-if="post">
         <!-- Post -->
         <article class="post">
             <header>
@@ -40,17 +40,20 @@
         <div class="post">
             <section class="comments">
                 <h3>Comments</h3>
-                <form>
-                    <textarea></textarea><br />
-                    <input type="submit" class="button big fit" value="Add Comment" />
-                </form>
-            </section>
-            <article class="comment">
-                <div class="comment-autor">
-                    <a href="#"><img src="images/avatar.jpg" /></a>
-                    <a href="#">User</a>
+                <div>
+                    <textarea v-model="comment"></textarea><br />
+                    <p class="red" v-if="errors.comment">
+                        {{ errors.comment.join('. ') }}
+                    </p>
+                    <button type="button" @click="addComment" class="button big fit">Добавить комментарий</button>
                 </div>
-                <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat.</p>
+            </section>
+            <article class="comment" v-for="value in comments">
+                <div class="comment-autor">
+                    <a href="#"><img :src="PUBLIC + value.user.avatar" /></a>
+                    <a href="#">{{ value.user.name }}</a>
+                </div>
+                <p>{{ value.comment }}</p>
             </article>
         </div>
     </div>
@@ -61,15 +64,37 @@ export default {
     props: ['pageId', 'server', 'PUBLIC'],
     data() {
         return {
-            post: {},
+            post: null,
+            comments: [],
+            comment: null,
+            errors: {},
         };
     },
     mounted() {
-        this.server('post/' + this.pageId)
-            .then((result) => {
-                this.post = result;
-            })
-            .catch((error) => console.log('error', error));
+        this.getPost();
+    },
+    methods: {
+        getPost() {
+            this.server('post/' + this.pageId)
+                .then((result) => {
+                    this.post = result.post;
+                    this.comments = result.comments;
+                })
+                .catch((error) => console.log('error', error));
+        },
+        addComment() {
+            let formdata = new FormData();
+            if (this.comment) formdata.append('comment', this.comment);
+            this.server('comment/' + this.pageId, 'POST', formdata)
+                .then((result) => {
+                    if (result.errors) {
+                        this.errors = result.errors;
+                    } else {
+                        this.getPost();
+                    }
+                })
+                .catch((error) => console.log('error', error));
+        },
     },
 };
 </script>

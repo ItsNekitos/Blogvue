@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
         return $request->user();
     });
     Route::post("/postadd", [PostController::class, "postadd"]);
+    Route::post("/comment/{post}", [CommentController::class, "store"]);
 });
 Route::get("/post/{post}", [PostController::class, "post"]);
 Route::post("/register", [UserController::class, "register"]);
