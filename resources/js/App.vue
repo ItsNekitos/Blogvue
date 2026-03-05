@@ -8,8 +8,8 @@
         <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" :changePage="changePage" :logout="logout" />
 
         <HomePage v-if="page == 'HomePage'" />
-        <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" />
-        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :server="server" :PUBLIC="PUBLIC" />
+        <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
+        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
     </div>
     <FooterComponent />
 </template>
@@ -26,8 +26,8 @@ export default {
     name: 'App',
     data() {
         return {
-            page: localStorage.getItem('page')?localStorage.getItem('page'):"HomePage",
-            pageId: null,
+            page: localStorage.getItem('page')||"HomePage",
+            pageId: localStorage.getItem('pageId')||"pageId",
             API: 'http://127.0.0.1:8000/api/',
             PUBLIC: 'http://127.0.0.1:8000/storage/',
             isUser: false,
@@ -52,6 +52,7 @@ export default {
             this.page = page;
             this.pageId = pageId;
             localStorage.setItem("page", this.page);
+            localStorage.setItem("pageId", this.pageId);
         },
         getUser() {
             this.server('user')

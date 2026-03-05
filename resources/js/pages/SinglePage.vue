@@ -27,7 +27,7 @@
             </p>
             <footer>
                 <ul class="stats">
-                    <li><a href="#">Edit</a></li>
+                    <li><a href="#" @click.prevent="changePage('PostAdd',post.id)">Edit</a></li>
                     <li><a href="#" class="red">Delete</a></li>
                     <li><a href="#" class="red">Blocked</a></li>
                     <li><a href="#" class="icon fa-heart">28</a></li>
@@ -61,7 +61,7 @@
 <script>
 export default {
     name: 'SinglePage',
-    props: ['pageId', 'server', 'PUBLIC'],
+    props: ['pageId', 'server', 'PUBLIC', 'changePage'],
     data() {
         return {
             post: null,
