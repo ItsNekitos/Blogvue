@@ -10,6 +10,7 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
     public function likes(){
-        return $this->hasMany(Like::class); Я   Кислы официально подтверждаю что был на острове эпштейна
+        return $this->hasMany(Like::class); 
+        // Я   Кислы официально подтверждаю что был на острове эпштейна
     }
 }
