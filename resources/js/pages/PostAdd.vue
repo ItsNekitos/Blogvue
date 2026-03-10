@@ -27,7 +27,7 @@
             <button type="button" @click="postadd" class="button big fit">{{ pageId ? 'Редактировать' : 'Добавить' }} пост</button>
         </article>
         <div v-if="pageId">
-            <img :src="PUBLIC + photo" alt="">
+            <img :src="PUBLIC + photo" alt="" />
         </div>
     </div>
 </template>
@@ -46,7 +46,7 @@ export default {
         };
     },
     mounted() {
-        if (this.pageId){
+        if (this.pageId) {
             this.getPost();
         }
     },
@@ -68,18 +68,18 @@ export default {
             if (this.subtitle) formdata.append('subtitle', this.subtitle);
             if (this.anons) formdata.append('anons', this.anons);
             if (this.contentt) formdata.append('contentt', this.contentt);
-            let photo = document.querySelector("#photo");
-            if(photo.files[0]) {
+            let photo = document.querySelector('#photo');
+            if (photo.files[0]) {
                 formdata.append('photo', photo.files[0]);
             }
-            this.server(this.pageId?'post/'+this.pageId:'postadd', 'POST', formdata)
+            this.server(this.pageId ? 'postedit/' + this.pageId : 'postadd', 'POST', formdata)
                 .then((result) => {
                     if (result.errors) {
                         this.errors = result.errors;
                     }
 
                     if (result.id) {
-                        this.changePage("SinglePage", result.id);
+                        this.changePage('SinglePage', result.id);
                     }
                 })
                 .catch((error) => console.log('error', error));

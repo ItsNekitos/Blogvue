@@ -29,7 +29,7 @@ class Post extends Authenticatable
         'subtitle',
         'anons',
         'content',
-        'file',
+        'photo',
     ];
 
     /**
