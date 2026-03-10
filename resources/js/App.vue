@@ -9,7 +9,7 @@
 
         <HomePage v-if="page == 'HomePage'" />
         <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
-        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :isUser="isUser" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
     </div>
     <FooterComponent />
 </template>

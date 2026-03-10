@@ -27,9 +27,9 @@
             </p>
             <footer>
                 <ul class="stats">
-                    <li><a href="#" @click.prevent="changePage('PostAdd',post.id)">Edit</a></li>
-                    <li><a href="#" class="red">Delete</a></li>
-                    <li><a href="#" class="red">Blocked</a></li>
+                    <li v-if="isAdmin"><a href="#" @click.prevent="changePage('PostAdd',post.id)">Edit</a></li>
+                    <li v-if="isAdmin"><a href="#" class="red">Delete</a></li>
+                    <li v-if="isAdmin"><a href="#" class="red">Blocked</a></li>
                     <li><a href="#" class="icon fa-heart">28</a></li>
                     <li><a href="#" class="icon fa-comment">128</a></li>
                 </ul>
@@ -38,7 +38,7 @@
 
         <!-- Comments -->
         <div class="post">
-            <section class="comments">
+            <section class="comments" v-if="isUser">
                 <h3>Comments</h3>
                 <div>
                     <textarea v-model="comment"></textarea><br />
@@ -61,13 +61,14 @@
 <script>
 export default {
     name: 'SinglePage',
-    props: ['pageId', 'server', 'PUBLIC', 'changePage'],
+    props: ['pageId', 'server', 'PUBLIC', 'changePage', 'isUser'],
     data() {
         return {
             post: null,
             comments: [],
             comment: null,
             errors: {},
+            isAdmin: false,
         };
     },
     mounted() {
@@ -75,10 +76,11 @@ export default {
     },
     methods: {
         getPost() {
-            this.server('post/' + this.pageId)
+            this.server((this.isUser ? 'postUser/' : 'post/') + this.pageId)
                 .then((result) => {
                     this.post = result.post;
                     this.comments = result.comments;
+                    this.isAdmin = result.isAdmin;
                 })
                 .catch((error) => console.log('error', error));
         },

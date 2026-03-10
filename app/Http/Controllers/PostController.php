@@ -31,7 +31,13 @@ class PostController extends Controller
     public function post($post){
         $post = Post::with('user')->findOrFail($post);
         $comments = Comment::where("post_id", $post->id)->with('user')->get();
-        return response()->json(['post'=>$post, 'comments'=>$comments]);
+        $isAdmin = false;
+        if(Auth::check()){
+            if(Auth::user()->id==$post->user_id||Auth::user()->role=='admin'){
+                $isAdmin = true;
+            }
+        }
+        return response()->json(['post'=>$post, 'comments'=>$comments, 'isAdmin'=>$isAdmin]);
     }
     public function postedit(PostEditRequest $request, Post $post){
         $post->name = $request->name;
