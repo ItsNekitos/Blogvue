@@ -11,6 +11,5 @@ class Comment extends Model
     }
     public function likes(){
         return $this->hasMany(Like::class); 
-        // Я   Кислы официально подтверждаю что был на острове эпштейна
     }
 }
