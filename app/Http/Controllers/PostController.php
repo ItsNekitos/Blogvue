@@ -8,6 +8,7 @@ use App\Http\Requests\PostEditRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -50,5 +51,8 @@ class PostController extends Controller
         }
         $post->save();
         return response()->json(["id"=>$post->id]);
+    }
+    public function postUser(User $user){
+        return Post::where("user_id",$user->id)->with("user")->withCount("comments","likes")->get();
     }
 }
