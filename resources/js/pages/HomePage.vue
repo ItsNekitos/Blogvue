@@ -22,7 +22,7 @@ import SidebarComponent from '@/components/SidebarComponent.vue';
 
 export default {
     name: 'HomePage',
-    props: ['server', 'changePage', 'pageId', 'PUBLIC'],
+    props: ['server', 'changePage', 'PUBLIC'],
     components: {
         PostComponent,
         SidebarComponent,
