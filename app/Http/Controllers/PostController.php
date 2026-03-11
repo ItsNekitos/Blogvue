@@ -52,7 +52,10 @@ class PostController extends Controller
         $post->save();
         return response()->json(["id"=>$post->id]);
     }
-    public function postUser(User $user){
+    public function postsUser(User $user){
         return Post::where("user_id",$user->id)->with("user")->withCount("comments","likes")->get();
+    }
+    public function postsHome(){
+        return Post::with("user")->withCount("comments","likes")->get();
     }
 }

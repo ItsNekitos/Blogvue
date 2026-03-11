@@ -12,7 +12,7 @@
                 </div>
                 <div class="meta">
                     <time class="published" datetime="2015-11-01">{{ post.created_at }}</time>
-                    <a href="#" class="author"
+                    <a href="#" @click.prevent="changePage('UserPage', post.user_id)" class="author"
                         ><span class="name">{{ post.user.name }}</span
                         ><img :src="PUBLIC + post.user.avatar" alt=""
                     /></a>
@@ -30,7 +30,7 @@
                     <li v-if="isAdmin"><a href="#" @click.prevent="changePage('PostAdd',post.id)">Edit</a></li>
                     <li v-if="isAdmin"><a href="#" class="red">Delete</a></li>
                     <li v-if="isAdmin"><a href="#" class="red">Blocked</a></li>
-                    <li><a href="#" class="icon fa-heart">28</a></li>
+                    <li><a href="#" class="icon fa-heart" @click.prevent="like()"></a></li>
                     <li><a href="#" class="icon fa-comment">128</a></li>
                 </ul>
             </footer>
@@ -50,8 +50,8 @@
             </section>
             <article class="comment" v-for="value in comments">
                 <div class="comment-autor">
-                    <a href="#"><img :src="PUBLIC + value.user.avatar" /></a>
-                    <a href="#">{{ value.user.name }}</a>
+                    <a href="#" @click.prevent="changePage('UserPage', value.user_id)"><img :src="PUBLIC + value.user.avatar" /></a>
+                    <a href="#" @click.prevent="changePage('UserPage', value.user_id)">{{ value.user.name }}</a>
                 </div>
                 <p>{{ value.comment }}</p>
             </article>
@@ -72,11 +72,11 @@ export default {
         };
     },
     mounted() {
-        this.getPost();
+        this.postUser();
     },
     methods: {
-        getPost() {
-            this.server((this.isUser ? 'postUser/' : 'post/') + this.pageId)
+        postUser() {
+            this.server((this.isUser ? 'postsUser/' : 'post/') + this.pageId)
                 .then((result) => {
                     this.post = result.post;
                     this.comments = result.comments;
@@ -92,7 +92,7 @@ export default {
                     if (result.errors) {
                         this.errors = result.errors;
                     } else {
-                        this.getPost();
+                        this.postUser();
                     }
                 })
                 .catch((error) => console.log('error', error));

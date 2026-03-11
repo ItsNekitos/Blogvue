@@ -2,7 +2,9 @@
     <!-- Main -->
     <div id="main">
         <!-- Post -->
-        <PostComponent />
+        <template v-for="post in posts.data">
+            <PostComponent :post="post" :changePage="changePage" />
+        </template>
 
         <!-- Pagination -->
         <ul class="actions pagination">
@@ -20,9 +22,27 @@ import SidebarComponent from '@/components/SidebarComponent.vue';
 
 export default {
     name: 'HomePage',
+    props: ['server', 'changePage', 'pageId', 'PUBLIC'],
     components: {
         PostComponent,
         SidebarComponent,
+    },
+    data() {
+        return {
+            posts: [],
+        };
+    },
+    mounted() {
+        this.postsHome();
+    },
+    methods: {
+        postsHome() {
+            this.server('postsHome')
+                .then((result) => {
+                    this.posts = result;
+                })
+                .catch((error) => console.log('error', error));
+        },
     },
 };
 </script>

@@ -7,9 +7,10 @@
         <!-- Menu -->
         <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" :changePage="changePage" :logout="logout" />
 
-        <HomePage v-if="page == 'HomePage'" />
+        <HomePage v-if="page == 'HomePage'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
         <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
         <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :isUser="isUser" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+        <UserPage v-if="page == 'UserPage'" :pageId="pageId" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
     </div>
     <FooterComponent />
 </template>
@@ -21,6 +22,7 @@ import MenuComponent from './components/MenuComponent.vue';
 import HomePage from './pages/HomePage.vue';
 import PostAdd from './pages/PostAdd.vue';
 import SinglePage from './pages/SinglePage.vue';
+import UserPage from './pages/UserPage.vue';
 
 export default {
     name: 'App',
@@ -41,6 +43,7 @@ export default {
         HomePage,
         PostAdd,
         SinglePage,
+        UserPage,
     },
     mounted() {
         if (localStorage.getItem('token')) {
