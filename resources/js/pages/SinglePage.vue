@@ -30,14 +30,14 @@
                     <li v-if="isAdmin"><a href="#" @click.prevent="changePage('PostAdd',post.id)">Edit</a></li>
                     <li v-if="isAdmin"><a href="#" class="red">Delete</a></li>
                     <li v-if="isAdmin"><a href="#" class="red">Blocked</a></li>
-                    <li><a href="#" class="icon fa-heart" @click.prevent="like()"></a></li>
-                    <li><a href="#" class="icon fa-comment">128</a></li>
+                    <li><a href="#" @click.prevent="likeClick" class="icon fa-heart" :class="{liked: isLike}">{{ post.likes_count }}</a></li>
+                    <li><a href="#countblock" class="icon fa-comment">{{ post.comments_count }}</a></li>
                 </ul>
             </footer>
         </article>
 
         <!-- Comments -->
-        <div class="post">
+        <div class="post" id="countblock">
             <section class="comments" v-if="isUser">
                 <h3>Comments</h3>
                 <div>
@@ -69,18 +69,32 @@ export default {
             comment: null,
             errors: {},
             isAdmin: false,
+            isLike: false,
         };
     },
     mounted() {
         this.postUser();
     },
     methods: {
+        likeClick() {
+            if(!this.isUser) {
+                alert('Авторизируйтесь!!!');
+            } else {
+            this.server('like/' + this.pageId)
+                .then((result) => {
+                    this.post.likes_count = result.like_count;
+                    this.post.isLike = result.isLike;
+                })
+                .catch((error) => console.log('error', error));
+            }
+        },
         postUser() {
             this.server((this.isUser ? 'postsUser/' : 'post/') + this.pageId)
                 .then((result) => {
                     this.post = result.post;
                     this.comments = result.comments;
                     this.isAdmin = result.isAdmin;
+                    this.isLike = result.isLike;
                 })
                 .catch((error) => console.log('error', error));
         },

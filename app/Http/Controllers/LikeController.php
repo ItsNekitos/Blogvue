@@ -29,9 +29,22 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLikeRequest $request)
+    public function store(Post $post)
     {
-        //
+        $isLike = false;
+        $like = Like::where("post_id",$post->id)->where("user_id", Auth::id())->first();
+        if($like){
+            $like->delete();
+        }else{
+            // $like = new Like();
+            // $like->post_id = $post->id;
+            // $like->user_id=Auth::id();
+            // $like->save();
+
+            Like::create(["user_id"=>Auth::id(), "post_id"=>$post->id]);
+            $isLike = true;
+        }
+        return response()->json(["like_count"==Like::where("post_id",$post->id)->count(), "isLike" == $isLike]);
     }
 
     /**

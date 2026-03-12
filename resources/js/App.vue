@@ -6,11 +6,15 @@
 
         <!-- Menu -->
         <MenuComponent :server="server" :isUser="isUser" :successUser="successUser" :changePage="changePage" :logout="logout" />
-
-        <HomePage v-if="page == 'HomePage'" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
-        <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
-        <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :isUser="isUser" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
-        <UserPage v-if="page == 'UserPage'" :pageId="pageId" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+        <template v-if="isLoad">
+            <HomePage v-if="page == 'HomePage'" :user="user" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+            <PostAdd v-if="page == 'PostAdd'" :server="server" :changePage="changePage" :pageId="pageId" :PUBLIC="PUBLIC" />
+            <SinglePage v-if="page == 'SinglePage'" :pageId="pageId" :isUser="isUser" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+            <UserPage v-if="page == 'UserPage'" :pageId="pageId" :server="server" :changePage="changePage" :PUBLIC="PUBLIC" />
+        </template>
+        <template v-else>
+            <h1>ЗАГРУЗКА...</h1>
+        </template>
     </div>
     <FooterComponent />
 </template>
@@ -33,6 +37,7 @@ export default {
             API: 'http://127.0.0.1:8000/api/',
             PUBLIC: 'http://127.0.0.1:8000/storage/',
             isUser: false,
+            isLoad: false,
             user: {},
         };
     },
@@ -48,6 +53,8 @@ export default {
     mounted() {
         if (localStorage.getItem('token')) {
             this.getUser();
+        } else {
+            this.isLoad = true;
         }
     },
     methods: {
@@ -62,6 +69,7 @@ export default {
                 .then((result) => {
                     this.user = result;
                     this.isUser = true;
+                    this.isLoad = true;
                 })
                 .catch((error) => console.log('error', error));
         },
@@ -73,14 +81,18 @@ export default {
         logout() {
             localStorage.removeItem('token');
             this.user = {};
-            this.getUser();
+            this.isUser = false;
+            this.isLoad = true;
         },
-        async server(route, method = 'GET', formdata = null) {
+        async server(route, method = 'GET', formdata = null, userid = null) {
             let myHeaders = new Headers();
             myHeaders.append('Accept', 'application/json');
 
             if (localStorage.getItem('token')) {
                 myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+                if(userid){
+                    myHeaders.append('userid', userid);
+                }
             }
 
             let requestOptions = {
