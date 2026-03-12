@@ -7,7 +7,7 @@
                 </div>
                 <div class="meta">
                     <time class="published" datetime="2015-11-01">{{ post.created_at }}</time>
-                    <a href="#" class="author"><span class="name">222</span><img src="PUBLIC + post.user.avatar" alt="" /></a>
+                    <a href="#" class="author"><span class="name">{{ post.user.name }}</span><img :src="PUBLIC + post.user.avatar" alt="" /></a>
                 </div>
             </header>
             <a href="#" @click.prevent="changePage('SinglePage', post.id)" class="image featured"><img :src="PUBLIC + post.photo" alt="" /></a>
@@ -29,6 +29,6 @@
 <script>
 export default {
     name: 'PostComponent',
-    props: ['post', 'changePage'],
+    props: ['post', 'changePage', 'PUBLIC'],
 };
 </script>

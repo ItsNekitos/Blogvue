@@ -2,8 +2,8 @@
     <!-- Main -->
     <div id="main">
         <!-- Post -->
-        <template v-for="post in posts.data">
-            <PostComponent :post="post" :changePage="changePage" />
+        <template v-for="post in posts">
+            <PostComponent :post="post" :changePage="changePage" :PUBLIC="PUBLIC" />
         </template>
 
         <!-- Pagination -->
