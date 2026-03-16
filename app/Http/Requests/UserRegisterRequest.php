@@ -25,6 +25,7 @@ class UserRegisterRequest extends FormRequest
             "username"=>"required|unique:users",
             "name"=>"required|min:3",
             "password"=>"required",
+            "avatar"=>"required|image"
         ];
     }
 }

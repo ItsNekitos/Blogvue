@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\Concerns\Has;
 
+use function Laravel\Prompts\alert;
+
 class UserController extends Controller
 {
     public function register(UserRegisterRequest $request){

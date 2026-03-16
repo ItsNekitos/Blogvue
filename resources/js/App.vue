@@ -37,7 +37,7 @@ export default {
             API: 'http://127.0.0.1:8000/api/',
             PUBLIC: 'http://127.0.0.1:8000/storage/',
             isUser: false,
-            isLoad: true,
+            isLoad: false,
             user: {},
         };
     },

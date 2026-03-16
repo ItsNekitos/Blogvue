@@ -65,7 +65,6 @@ class PostController extends Controller
         $likeArray=[];
         if(isset($request->header()['userid'])){
             $likeArray = Like::where('user_id', $request->header()['userid'])->pluck('post_id')->toArray();
-            //return $likeArray;
         }
         return ["posts"=>Post::with("user")->withCount("comments","likes")->paginate(2), "likesArray"=>$likeArray];
     }
