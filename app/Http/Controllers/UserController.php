@@ -33,7 +33,7 @@ class UserController extends Controller
             Auth::login($user);
             return response()->json(['token' => $user->createToken('api')->plainTextToken]);
         } else {
-            return response()->json([]);
+            return response()->json(['errors' => ["password"=>["Неверный логин или пароль"]]]);
         }
     }
 }
