@@ -11,7 +11,7 @@
                     <p>{{ post.subtitle }}</p>
                 </div>
                 <div class="meta">
-                    <time class="published" datetime="2015-11-01">{{ post.created_at }}</time>
+                    <time class="published">{{ post.created_at.split("T")[0] }}, {{ post.created_at.split(".")[0].split("T")[1] }}</time>
                     <a href="#" @click.prevent="changePage('UserPage', post.user_id)" class="author"
                         ><span class="name">{{ post.user.name }}</span
                         ><img :src="PUBLIC + post.user.avatar" alt=""
@@ -74,11 +74,10 @@ export default {
             errors: {},
             isAdmin: false,
             isLike: false,
-            authCheck: null,
         };
     },
     mounted() {
-        this.postUser();  
+        this.postUser();
     },
     methods: {
         likeClick() {
@@ -100,7 +99,6 @@ export default {
                     this.comments = result.comments;
                     this.isAdmin = result.isAdmin;
                     this.isLike = result.isLike;
-                    this.authCheck = result.authCheck;
                 })
                 .catch((error) => console.log('error', error));
         },

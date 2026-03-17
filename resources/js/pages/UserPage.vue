@@ -9,7 +9,7 @@
                     <p>{{ value.subtile }}</p>
                 </div>
                 <div class="meta">
-                    <time class="published" datetime="2015-11-01">{{ value.created_at }}</time>
+                    <time class="published" datetime="2015-11-01">{{ value.created_at.split("T")[0] }}, {{ value.created_at.split(".")[0].split("T")[1] }}</time>
                     <a href="#" class="author"><span class="name">{{ value.user.name }}</span><img :src="PUBLIC + value.user.avatar" alt="" /></a>
                 </div>
             </header>
@@ -22,8 +22,8 @@
                     <li><a href="#" @click.prevent="changePage('SinglePage', value.id)" class="button big">Continue Reading</a></li>
                 </ul>
                 <ul class="stats">
-                    <li><a href="#" class="icon fa-heart">{{ value.likes_count }}</a></li>
-                    <li><a href="#" class="icon fa-comment">{{ value.comments_count }}</a></li>
+                    <li><a class="icon fa-heart">{{ value.likes_count }}</a></li>
+                    <li><a class="icon fa-comment">{{ value.comments_count }}</a></li>
                 </ul>
             </footer>
         </article>

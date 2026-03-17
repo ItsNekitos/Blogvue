@@ -6,7 +6,7 @@
                     <p>{{ post.subtile }}</p>
                 </div>
                 <div class="meta">
-                    <time class="published" datetime="2015-11-01">{{ post.created_at }}</time>
+                    <time class="published" datetime="2015-11-01">{{ post.created_at.split("T")[0] }}, {{ post.created_at.split(".")[0].split("T")[1] }}</time>
                     <a href="#" @click.prevent="changePage('UserPage', post.user.id)" class="author"><span class="name">{{ post.user.name }}</span><img :src="PUBLIC + post.user.avatar" alt="" /></a>
                 </div>
             </header>
