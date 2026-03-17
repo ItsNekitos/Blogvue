@@ -26,9 +26,15 @@
         </article>
 </template>
 
+
 <script>
+import SidePostsComponent from '@/components/SidebarComponent.vue';
+
 export default {
     name: 'PostComponent',
     props: ['post', 'changePage', 'PUBLIC', 'likeArray'],
+    components: {
+        SidePostsComponent,
+    }
 };
 </script>

@@ -11,7 +11,7 @@
                     <p>{{ post.subtitle }}</p>
                 </div>
                 <div class="meta">
-                    <time class="published">{{ post.created_at.split("T")[0] }}, {{ post.created_at.split(".")[0].split("T")[1] }}</time>
+                    <time class="published">{{ post.created_at.split('T')[0] }}, {{ post.created_at.split('.')[0].split('T')[1] }}</time>
                     <a href="#" @click.prevent="changePage('UserPage', post.user_id)" class="author"
                         ><span class="name">{{ post.user.name }}</span
                         ><img :src="PUBLIC + post.user.avatar" alt=""
@@ -87,7 +87,7 @@ export default {
                 this.server('like/' + this.pageId)
                     .then((result) => {
                         this.post.likes_count = result.like_count;
-                        this.post.isLike = result.isLike;
+                        this.isLike = result.isLike;
                     })
                     .catch((error) => console.log('error', error));
             }
@@ -111,6 +111,7 @@ export default {
                         this.errors = result.errors;
                     } else {
                         this.postUser();
+                        this.comment='';
                     }
                 })
                 .catch((error) => console.log('error', error));

@@ -36,15 +36,11 @@ class LikeController extends Controller
         if($like){
             $like->delete();
         }else{
-            // $like = new Like();
-            // $like->post_id = $post->id;
-            // $like->user_id=Auth::id();
-            // $like->save();
+            $isLike = true;
 
             Like::create(["user_id"=>Auth::id(), "post_id"=>$post->id]);
-            $isLike = true;
         }
-        return response()->json(["like_count"==Like::where("post_id",$post->id)->count(), "isLike" == $isLike]);
+        return response()->json(["like_count"=>Like::where("post_id",$post->id)->count(), "isLike" => $isLike]);
     }
 
     /**

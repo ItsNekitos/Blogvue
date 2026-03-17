@@ -1,34 +1,4 @@
 <template>
-    <!-- Main -->
-    <div id="main">
-        <!-- Post -->
-        <template v-for="post in posts.data">
-            <PostComponent :post="post" :changePage="changePage" :PUBLIC="PUBLIC" :likeArray="likeArray" />
-        </template>
-
-        <!-- Pagination -->
-        <ul class="actions pagination">
-            <li>
-                <a
-                    href="#"
-                    @click.prevent="postsHome(posts.current_page - 1)"
-                    :class="{ disabled: posts.current_page == 1 }"
-                    class="button big previous"
-                    >Previous Page</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    @click.prevent="postsHome(posts.current_page + 1)"
-                    :class="{ disabled: posts.current_page == posts.last_page }"
-                    class="button big next"
-                    >Next Page</a
-                >
-            </li>
-        </ul>
-    </div>
-
     <section id="sidebar">
         <!-- Intro -->
         <section id="intro">
@@ -43,9 +13,15 @@
         <section>
             <h3>Popular posts</h3>
             <div class="mini-posts">
-    <template v-for="post in posts.data">
-        <SidebarComponent :post="post" :PUBLIC="PUBLIC" :changePage="changePage" />
-    </template>
+                <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="#">{{ post.name }}</a></h3>
+                        <time class="published" datetime="2015-10-20">{{ post.created_at.split("T")[0] }}, {{ post.created_at.split(".")[0].split("T")[1] }}</time>
+                        <a href="#" class="author"><img :src="PUBLIC + post.user.avatar" alt="" /></a>
+                    </header>
+                    <a href="#" class="image"><img :src="PUBLIC + post.photo" alt=""/></a>
+                </article>
             </div>
         </section>
 
@@ -103,35 +79,10 @@
         </section>
     </section>
 </template>
-<script>
-import PostComponent from '@/components/PostComponent.vue';
-import SidebarComponent from '@/components/SidebarComponent.vue';
 
+<script>
 export default {
-    name: 'HomePage',
-    props: ['server', 'changePage', 'PUBLIC', 'user'],
-    components: {
-        PostComponent,
-        SidebarComponent,
-    },
-    data() {
-        return {
-            posts: [],
-            likeArray: [],
-        };
-    },
-    mounted() {
-        this.postsHome();
-    },
-    methods: {
-        postsHome(page = 1) {
-            this.server('postsHome/?page=' + page, 'GET', null, this.user.id)
-                .then((result) => {
-                    this.posts = result.posts;
-                    this.likeArray = result.likeArray;
-                })
-                .catch((error) => console.log('error', error));
-        },
-    },
+    name: 'SidebarPosts',
+    props: ['post', 'PUBLIC'],
 };
 </script>
