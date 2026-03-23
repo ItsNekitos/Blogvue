@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
-            $table->string('subtitle');
-            $table->string('anons');
-            $table->string('contentt');
+            $table->string('decription');
+            $table->string('cooktime');
+            $table->string('difficulty');
             $table->string('photo');
             $table->timestamps();
         });

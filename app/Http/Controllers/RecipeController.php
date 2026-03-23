@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\PostAddRequest;
-use App\Http\Requests\PostEditRequest;
+use App\Http\Requests\RecipeAddRequest;
+use App\Http\Requests\RecipeEditRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Models\Comment;
 use App\Models\Like;
-use App\Models\Post;
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\Concerns\Has;
 
-class PostController extends Controller
+class RecipeController extends Controller
 {
-    public function postadd(PostAddRequest $request){
-        $post = new Post();
+    public function postadd(RecipeAddRequest $request){
+        $post = new Recipe();
         $post->user_id = Auth::id();
         $post->name = $request->name;
         $post->subtitle = $request->subtitle;
@@ -31,7 +31,7 @@ class PostController extends Controller
         return response()->json(["id"=>$post->id]);
     }
     public function post($post){
-        $post = Post::with('user')->withCount('likes','comments')->findOrFail($post);
+        $post = Recipe::with('user')->withCount('likes','comments')->findOrFail($post);
         $comments = Comment::where("post_id", $post->id)->with('user')->get();
         $isLike = false;
         $isAdmin = false;
@@ -46,7 +46,7 @@ class PostController extends Controller
         }
         return response()->json(['post'=>$post, 'comments'=>$comments, 'isAdmin'=>$isAdmin, 'isLike'=>$isLike]);
     }
-    public function postedit(PostEditRequest $request, Post $post){
+    public function postedit(RecipeEditRequest $request, Recipe $post){
         $post->name = $request->name;
         $post->subtitle = $request->subtitle;
         $post->anons = $request->anons;
@@ -59,13 +59,13 @@ class PostController extends Controller
         return response()->json(["id"=>$post->id]);
     }
     public function postsUser(User $user){
-        return Post::where("user_id",$user->id)->with("user")->withCount("comments","likes")->get();
+        return Recipe::where("user_id",$user->id)->with("user")->withCount("comments","likes")->get();
     }
     public function postsHome(Request $request){
         $likeArray=[];
         if(isset($request->header()['userid'])){
             $likeArray = Like::where('user_id', $request->header()['userid'])->pluck('post_id')->toArray();
         }
-        return ["posts"=>Post::with("user")->withCount("comments","likes")->paginate(2), "likesArray"=>$likeArray];
+        return ["posts"=>Recipe::with("user")->withCount("comments","likes")->paginate(2), "likesArray"=>$likeArray];
     }
 }
